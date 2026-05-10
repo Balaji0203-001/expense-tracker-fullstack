@@ -3,8 +3,10 @@ package com.expensetracker.security.config;
 import com.expensetracker.security.jwt.JwtAuthenticationFilter;
 import com.expensetracker.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -70,14 +73,14 @@ public class SecurityConfig {
                         )
                 )
 
-                // Stateless session
+                // Stateless Session
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
-                // API authorization rules
+                // Authorization Rules
                 .authorizeHttpRequests(auth -> auth
 
                         // Public APIs
@@ -89,10 +92,12 @@ public class SecurityConfig {
                         .authenticated()
                 )
 
-                // Authentication provider
-                .authenticationProvider(authenticationProvider())
+                // Authentication Provider
+                .authenticationProvider(
+                        authenticationProvider()
+                )
 
-                // JWT filter
+                // JWT Filter
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -101,33 +106,32 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // CORS Configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
+        // Allowed Frontend URLs
         configuration.setAllowedOrigins(
                 List.of(
                         "http://localhost:5173",
-                        "https://project-i2tyq-balaji0203-001s-projects.vercel.app"
+                        "https://project-i2tyq.vercel.app"
                 )
         );
 
+        // Allowed HTTP Methods
         configuration.setAllowedMethods(
-                List.of(
-                        "GET",
-                        "POST",
-                        "PUT",
-                        "DELETE",
-                        "OPTIONS"
-                )
+                List.of("*")
         );
 
+        // Allowed Headers
         configuration.setAllowedHeaders(
                 List.of("*")
         );
 
+        // Allow Credentials
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
