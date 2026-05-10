@@ -2,6 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom"
 
 import LoginPage from "../pages/auth/LoginPage"
@@ -15,9 +16,20 @@ import MainLayout from "../layouts/MainLayout"
 function AppRoutes() {
 
   return (
+
     <BrowserRouter>
 
       <Routes>
+
+        {/* Default Route */}
+        <Route
+          path="/"
+          element={
+            localStorage.getItem("token")
+              ? <Navigate to="/dashboard" />
+              : <Navigate to="/login" />
+          }
+        />
 
         {/* Public Routes */}
         <Route
