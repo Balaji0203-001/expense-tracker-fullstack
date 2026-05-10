@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://expense-tracker-fullstack-app-1n25.onrender.com/api",
 })
 
 export default axiosInstance
