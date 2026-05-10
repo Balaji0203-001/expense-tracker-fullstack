@@ -60,11 +60,15 @@ public class SecurityConfig {
 
         http
 
-                // Enable CORS
-                .cors(cors -> {})
-
                 // Disable CSRF
                 .csrf(AbstractHttpConfigurer::disable)
+
+                // Enable CORS
+                .cors(cors ->
+                        cors.configurationSource(
+                                corsConfigurationSource()
+                        )
+                )
 
                 // Stateless session
                 .sessionManagement(session ->
@@ -104,11 +108,20 @@ public class SecurityConfig {
                 new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of(
+                        "http://localhost:5173",
+                        "https://project-i2tyq-balaji0203-001s-projects.vercel.app"
+                )
         );
 
         configuration.setAllowedMethods(
-                List.of("GET", "POST", "PUT", "DELETE")
+                List.of(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"
+                )
         );
 
         configuration.setAllowedHeaders(
